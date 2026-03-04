@@ -2,16 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreatePropertyAgentDto } from './dto/create-property-agent.dto';
 import { randomUUID } from 'crypto';
 import { UpdatePropertyAgentDto } from './dto/update-property-agend.dto';
-
-export interface PropertyAgent {
-  id: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  mobileNumber: string;
-  createdAt: Date;
-  updatedAt: Date;
-}
+import { PropertyAgent } from 'src/model/property-agent.model';
 
 @Injectable()
 export class PropertyAgentService {
