@@ -6,6 +6,7 @@ import { PropertyAgentModule } from 'src/property-agent/property-agent.module';
 @Module({
   imports: [PropertyAgentModule],
   controllers: [PropertyController],
-  providers: [PropertyService]
+  providers: [PropertyService],
+  exports: [PropertyService]
 })
 export class PropertyModule {}

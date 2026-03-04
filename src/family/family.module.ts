@@ -6,6 +6,7 @@ import { PropertyModule } from 'src/property/property.module';
 @Module({
   imports: [PropertyModule],
   controllers: [FamilyController],
-  providers: [FamilyService]
+  providers: [FamilyService],
+  exports: [FamilyService]
 })
 export class FamilyModule {}

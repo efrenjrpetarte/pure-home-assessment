@@ -6,6 +6,7 @@ import { FamilyModule } from 'src/family/family.module';
 @Module({
   imports: [FamilyModule],
   controllers: [TenantController],
-  providers: [TenantService]
+  providers: [TenantService],
+  exports: [TenantService]
 })
 export class TenantModule {}
