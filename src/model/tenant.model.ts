@@ -3,5 +3,6 @@ export interface Tenant {
   familyId: string; // FK -> Family.id
   firstName: string;
   lastName: string;
-  age: number;
+  contactNumber: string;
+  createdAt: Date;
 }
