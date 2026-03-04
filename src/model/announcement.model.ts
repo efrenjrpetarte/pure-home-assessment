@@ -1,4 +1,4 @@
-export interface Note {
+export interface Announcement {
   id: string; // UUID
   agentId: string; // FK -> PropertyAgent.id
   propertyId: string; // FK -> Property.id
