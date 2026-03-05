@@ -1,22 +1,18 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { forwardRef, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { CreatePropertyAgentDto } from './dto/create-property-agent.dto';
 import { randomUUID } from 'crypto';
 import { UpdatePropertyAgentDto } from './dto/update-property-agend.dto';
 import { PropertyAgent } from 'src/model/property-agent.model';
+import { PropertyService } from 'src/property/property.service';
 
 @Injectable()
 export class PropertyAgentService {
-  private propertyAgents: PropertyAgent[] = [
-    {
-      id: "4b2e9190-d8da-42c6-9b37-2a8c4f773fdb",
-      firstName: "Efren Jr",
-      lastName: "Petarte",
-      email: "petarte.572@gmail.com",
-      mobileNumber: "sds",
-      createdAt: new Date("2026-03-05T06:26:00.630Z"),
-      updatedAt: new Date("2026-03-05T06:26:00.630Z")
-    }
-  ];
+  private propertyAgents: PropertyAgent[] = [];
+
+  constructor(
+      @Inject(forwardRef(() => PropertyService))
+      private readonly propertyService: PropertyService,
+  ) {}
 
   findAll(): PropertyAgent[] {
     return this.propertyAgents;
@@ -52,6 +48,9 @@ export class PropertyAgentService {
   remove(id: string): void {
     const index = this.propertyAgents.findIndex(propertyAgent => propertyAgent.id === id);
     if (index === -1) throw new NotFoundException('Agent not found');
+
+    const property = this.propertyService.findByPropertyAgent(id)
+    if (property) throw new NotFoundException('Agent has a property record');
 
     this.propertyAgents.splice(index, 1);
   }

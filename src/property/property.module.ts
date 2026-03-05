@@ -5,7 +5,7 @@ import { FamilyModule } from 'src/family/family.module';
 import { PropertyAgentModule } from 'src/property-agent/property-agent.module';
 
 @Module({
-  imports: [PropertyAgentModule, forwardRef(() => FamilyModule)],
+  imports: [forwardRef(() => PropertyAgentModule), forwardRef(() => FamilyModule)],
   controllers: [PropertyController],
   providers: [PropertyService],
   exports: [PropertyService]

@@ -13,7 +13,9 @@ export class PropertyService {
     private properties: Property[] = [];
 
     constructor(
+        @Inject(forwardRef(() => PropertyAgentService))
         private readonly propertyAgentService: PropertyAgentService,
+
         @Inject(forwardRef(() => FamilyService))
         private readonly familyService: FamilyService
     ) {}
@@ -75,4 +77,8 @@ export class PropertyService {
 
         this.properties.splice(index, 1);
     }
+
+    findByPropertyAgent(propertyAgentId: string): Property | null {
+    return this.properties.find(f => f.agentId === propertyAgentId) || null;
+  }
 }

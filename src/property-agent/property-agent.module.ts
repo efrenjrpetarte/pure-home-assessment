@@ -1,8 +1,10 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { PropertyAgentController } from './property-agent.controller';
 import { PropertyAgentService } from './property-agent.service';
+import { PropertyModule } from 'src/property/property.module';
 
 @Module({
+  imports: [forwardRef(() => PropertyModule)],
   controllers: [PropertyAgentController],
   providers: [PropertyAgentService],
   exports: [PropertyAgentService]
