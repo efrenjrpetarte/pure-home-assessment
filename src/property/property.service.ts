@@ -1,18 +1,29 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { forwardRef, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { Property } from 'src/model/property.model';
 import { PropertyAgentService } from 'src/property-agent/property-agent.service';
 import { CreatePropertyDto } from './dto/create-property.dto';
 import { randomUUID } from 'crypto';
 import { UpdatePropertyDto } from './dto/update-property.dto';
+import { FamilyService } from 'src/family/family.service';
+import { Family } from 'src/model/famility.model';
+import { PropertyAgent } from 'src/model/property-agent.model';
 
 @Injectable()
 export class PropertyService {
     private properties: Property[] = [];
 
-    constructor(private readonly propertyAgentService: PropertyAgentService) {}
+    constructor(
+        private readonly propertyAgentService: PropertyAgentService,
+        @Inject(forwardRef(() => FamilyService))
+        private readonly familyService: FamilyService
+    ) {}
 
-    findAll(): Property[] {
-        return this.properties;
+    findAll(): (Property & { family: Family | null, agent: PropertyAgent })[] {
+        return this.properties.map(property => {
+            const family = this.familyService.findByProperty(property.id);
+            const agent = this.propertyAgentService.findOne(property.agentId);
+            return { ...property, family, agent };
+        });
     }
 
     create(createPropertyDto: CreatePropertyDto): Property {

@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { forwardRef, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { Family } from 'src/model/famility.model';
 import { PropertyService } from 'src/property/property.service';
 import { CreateFamilyDto } from './dto/create-family.dto';
@@ -9,7 +9,10 @@ import { UpdateFamilyDto } from './dto/update-family.dto';
 export class FamilyService {
   private families: Family[] = [];
 
-  constructor(private readonly propertyService: PropertyService) {}
+  constructor(
+    @Inject(forwardRef(() => PropertyService))
+    private readonly propertyService: PropertyService
+  ) {}
 
   findAll(): Family[] {
     return this.families;
@@ -60,7 +63,7 @@ export class FamilyService {
    * @param propertyId 
    * @returns 
    */
-  findByProperty(propertyId: string): Family[] {
-    return this.families.filter(f => f.propertyId === propertyId);
+  findByProperty(propertyId: string): Family | null {
+    return this.families.find(f => f.propertyId === propertyId) || null;
   }
 }

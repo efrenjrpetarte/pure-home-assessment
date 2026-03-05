@@ -6,7 +6,17 @@ import { PropertyAgent } from 'src/model/property-agent.model';
 
 @Injectable()
 export class PropertyAgentService {
-  private propertyAgents: PropertyAgent[] = [];
+  private propertyAgents: PropertyAgent[] = [
+    {
+      id: "4b2e9190-d8da-42c6-9b37-2a8c4f773fdb",
+      firstName: "Efren Jr",
+      lastName: "Petarte",
+      email: "petarte.572@gmail.com",
+      mobileNumber: "sds",
+      createdAt: new Date("2026-03-05T06:26:00.630Z"),
+      updatedAt: new Date("2026-03-05T06:26:00.630Z")
+    }
+  ];
 
   findAll(): PropertyAgent[] {
     return this.propertyAgents;

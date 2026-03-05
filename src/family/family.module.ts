@@ -1,10 +1,10 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { FamilyController } from './family.controller';
 import { FamilyService } from './family.service';
 import { PropertyModule } from 'src/property/property.module';
 
 @Module({
-  imports: [PropertyModule],
+  imports: [forwardRef(() => PropertyModule)],
   controllers: [FamilyController],
   providers: [FamilyService],
   exports: [FamilyService]
