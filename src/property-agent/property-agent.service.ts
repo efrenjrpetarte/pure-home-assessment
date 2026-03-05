@@ -1,4 +1,4 @@
-import { forwardRef, Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { ConflictException, forwardRef, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { CreatePropertyAgentDto } from './dto/create-property-agent.dto';
 import { randomUUID } from 'crypto';
 import { UpdatePropertyAgentDto } from './dto/update-property-agend.dto';
@@ -19,6 +19,14 @@ export class PropertyAgentService {
   }
 
   create(createPropertyAgentDto: CreatePropertyAgentDto): PropertyAgent {
+    const existingAgent = this.propertyAgents.find(
+      agent => agent.email === createPropertyAgentDto.email
+    );
+
+    if (existingAgent) {
+      throw new ConflictException('Email already exists');
+    }
+
     const newPropertyAgent: PropertyAgent = {
         id: randomUUID(),
         ...createPropertyAgentDto,
@@ -38,6 +46,14 @@ export class PropertyAgentService {
 
   update(id: string, updatePropertyAgentDto: UpdatePropertyAgentDto): PropertyAgent {
     const propertyAgent = this.findOne(id);
+
+    const emailExists = this.propertyAgents.find(
+      a => a.email === updatePropertyAgentDto.email && a.id !== id
+    );
+
+    if (emailExists) {
+      throw new ConflictException('Email already exists');
+    }
 
     Object.assign(propertyAgent, updatePropertyAgentDto)
     propertyAgent.updatedAt = new Date()
