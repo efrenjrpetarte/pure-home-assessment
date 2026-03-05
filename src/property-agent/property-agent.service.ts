@@ -24,7 +24,11 @@ export class PropertyAgentService {
     );
 
     if (existingAgent) {
-      throw new ConflictException('Email already exists');
+      throw new ConflictException({
+        errors: {
+          email: 'Email already exists'
+        }
+      });
     }
 
     const newPropertyAgent: PropertyAgent = {
@@ -52,7 +56,11 @@ export class PropertyAgentService {
     );
 
     if (emailExists) {
-      throw new ConflictException('Email already exists');
+      throw new ConflictException({
+        errors: {
+          email: 'Email already exists'
+        }
+      });
     }
 
     Object.assign(propertyAgent, updatePropertyAgentDto)
