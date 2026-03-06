@@ -4,6 +4,7 @@ import { randomUUID } from 'crypto';
 import { UpdatePropertyAgentDto } from './dto/update-property-agend.dto';
 import { PropertyAgent } from 'src/model/property-agent.model';
 import { PropertyService } from 'src/property/property.service';
+import { Property } from 'src/model/property.model';
 
 @Injectable()
 export class PropertyAgentService {
@@ -42,10 +43,13 @@ export class PropertyAgentService {
     return newPropertyAgent;
   }
 
-  findOne(id: string): PropertyAgent {
+  findOne(id: string): PropertyAgent & { properties: Property[] } {
     const propertyAgent = this.propertyAgents.find(agent => agent.id === id)
     if(!propertyAgent) throw new NotFoundException('Agent not found');
-    return propertyAgent;
+
+    const properties = this.propertyService.filterByPropertyAgent(propertyAgent.id);
+
+    return { ...propertyAgent, properties };
   }
 
   update(id: string, updatePropertyAgentDto: UpdatePropertyAgentDto): PropertyAgent {

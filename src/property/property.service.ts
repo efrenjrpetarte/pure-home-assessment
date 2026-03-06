@@ -79,6 +79,10 @@ export class PropertyService {
     }
 
     findByPropertyAgent(propertyAgentId: string): Property | null {
-    return this.properties.find(f => f.agentId === propertyAgentId) || null;
-  }
+        return this.properties.find(f => f.agentId === propertyAgentId) || null;
+    }
+
+    filterByPropertyAgent(propertyAgentId: string): Property[] {
+        return this.properties.filter(f => f.agentId === propertyAgentId);
+    }
 }
